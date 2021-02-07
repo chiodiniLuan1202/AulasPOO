@@ -6,82 +6,73 @@ import java.util.Scanner;
 public class main {
 		 
 	public static void main(String[] args) {
-		Scanner teclado = new Scanner(System.in);
-		AuxilioEmergencial a= new AuxilioEmergencial();
-		int escolha=0;
-		int desempregado=0;
+		Scanner ler = new Scanner(System.in);
+		AuxilioEmergencial listaBeneficiados= new AuxilioEmergencial();
+		int opcoes=0;
 		
 			do {
 
 			System.out.println("Menu");
-			System.out.println("1 - Cadastrar nova pessoa");
-			System.out.println("2 - Listar Benefeciados");
-			System.out.println("3 - Maior Tempo");
-			System.out.println("4 - Maior valor");
-			System.out.println("5 - Sair");
-			escolha = teclado.nextInt();
+			System.out.println("1 - Novo cadastro");
+			System.out.println("2 - Dados beneficios");
+			System.out.println("3 - Sair");
+			opcoes = ler.nextInt();
 		
 		
-			switch (escolha) {
+			switch (opcoes) {
 			case 1:
-				teclado.nextLine();
-				System.out.println("Digite seu nome completo:");
-				String nome= teclado.nextLine();
-				System.out.println("Digite sua situção entre: 1-EMPREGADO,2-DESEMPREGADO,3-EMPREGADOR");
-				int opcao = teclado.nextInt();
-				teclado.nextLine();
+				ler.nextLine();
+				System.out.println("Escreva seu nome completo:");
+				String nome= ler.nextLine();
+				System.out.println("Escreva sua situção entre: 1-EMPREGADO,2-DESEMPREGADO,3-EMPREGADOR");
+				int opcao = ler.nextInt();
+				ler.nextLine();
 				Categoria categoria = null;
 				if(opcao==1) {
 					categoria=categoria.EMPREGADO;
 				}
 				if(opcao==2) { 
 					categoria=categoria.DESEMPREGADO;
-					System.out.println("A quanto tempo esta desempregado ?");
-					desempregado= teclado.nextInt();
 				}
 				if(opcao==3) { 
 					categoria=categoria.EMPREGADOR;
 				}
-				teclado.nextLine();
+				ler.nextLine();
 				System.out.println("Digite sua data de nascimento:");
-				String dataNasc = teclado.nextLine();
+				String dataNasc = ler.nextLine();
 				System.out.println("Informe sua Idade");
-				int idade = teclado.nextInt();
-				teclado.nextLine();
-				System.out.println("Informe seu Estado: ");
-				String estado = teclado.nextLine().trim();
-				System.out.println("É aposentado 1- sim e 2- não ?");
-				int apos=teclado.nextInt();
+				int idade = ler.nextInt();
+				ler.nextLine();
+				System.out.println("Escreva seu Estado: ");
+				String estado = ler.nextLine().trim();
+				System.out.println("Você é aposentado 1- sim e 2- não ?");
+				int apos=ler.nextInt();
 				boolean aposentado;
-				teclado.nextLine();
+				ler.nextLine();
 				if(apos==1) {
 					aposentado=true;
 				}else {
 					aposentado=false;
 				}
 				
-				Beneficiados p1=new Beneficiados(nome,idade,dataNasc,categoria,estado,aposentado,desempregado);
-				if(p1.getEstado()=="Santa Catarina") {
-					p1.moraSantaCatarina();
+				Beneficiados pessoa1=new Beneficiados(nome,idade,dataNasc,categoria,estado,aposentado,6);
+				if(pessoa1.getEstado()=="Santa Catarina") {
+					pessoa1.moraSantaCatarina();
 				}
 				
-				a.addBeneficiados(p1);
+				listaBeneficiados.addBeneficiados(pessoa1);
 				break;
 			case 2:
-				System.out.println(a.listarBeneficiados());
+				System.out.println(listaBeneficiados.maiorValor());
+				System.out.println(listaBeneficiados.maiorTempo());
+				System.out.println(listaBeneficiados.listarBeneficiados());
 			
-				break;
-			case 3:
-				a.maiorTempo();
+			break;
 			
-				break;
-			case 4:
-				a.maiorValor();
-			
-				break;
 			}
-			}while(escolha!=5);
-	
+			}while(opcoes!=3);
+			
+			
 	}
 	
 	

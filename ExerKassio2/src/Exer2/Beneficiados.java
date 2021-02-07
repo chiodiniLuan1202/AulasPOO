@@ -17,15 +17,16 @@ public class Beneficiados {
 		private int mesesDesempregado;
 		private int tempoBeneficio;
 		private int funcionarios;
+		private int quantidadeBeneficiados;
 		private Scanner ler = new Scanner(System.in);
 		
 		public Beneficiados(String nomeCompleto, int idade, String dataNasc, Categoria categoria, String estado,
 				boolean aposentado, int mesesDesempregado) {
 			if (idade < 18) {
-				System.err.print("Se for menor de 18 anos, você não tera direito ao auxilio...." + "\n");
+				System.out.println("Se for menor de 18 anos, você não tera direito ao auxilio...." + "\n");
 			} else {
-				this.idade = idade;
-			}
+			quantidadeBeneficiados++;
+			this.idade = idade;
 			this.nomeCompleto = nomeCompleto;
 			this.dataNasc = dataNasc;
 			this.categoria = categoria;
@@ -43,8 +44,8 @@ public class Beneficiados {
 				
 			}else if (categoria == categoria.EMPREGADO) {
 					valorBeneficio = 1000;
+				}
 			}
-				
 		}
 
 		public String getNomeCompleto() {
@@ -52,7 +53,7 @@ public class Beneficiados {
 		}
 
 		public int getTempoBeneficio() {
-			return this.tempoBeneficio = 2;
+			return tempoBeneficio;
 		}
 
 		public String getDataNasc() {
@@ -85,6 +86,10 @@ public class Beneficiados {
 
 		public double EmpregadorBeneficio() {
 			return funcionarios * 200;
+		}
+		
+		public int getQuantidadeBeneficiados() {
+			return quantidadeBeneficiados;
 		}
 	
 		@Override
