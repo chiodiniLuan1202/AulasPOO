@@ -100,7 +100,7 @@ public class Beneficiados {
 		
 		try {
 			Statement statement = conn.createStatement();
-			String select = "SELECT ID, NOME, DATA_NASCIMENTO, CATEGORIA, IDADE, ESTADO, VALOR_BENEFICIO,TEMPO_BENEFICIO from BENEFICIADOS";
+			String select = "SELECT ID, NOME, DATA_NASCIMENTO, CATEGORIA, IDADE, ESTADO, VALOR_BENEFICIO,TEMPO_BENEFICIO from BENEFECIARIO";
 			ResultSet resultSet = statement.executeQuery(select);
 			
 			while(resultSet.next()) {
@@ -124,7 +124,7 @@ public class Beneficiados {
 	public void listarTotalUsuarios() {	
 		try {
 			Statement statement = conn.createStatement();
-			String select = "SELECT COUNT(*) from BENEFICIADOS";
+			String select = "SELECT COUNT(*) from BENEFECIARIO";
 			ResultSet resultSet = statement.executeQuery(select);
 		
 			System.out.println("Total de usuarios lidos: " + resultSet.getInt("count(*)"));
@@ -139,7 +139,7 @@ public class Beneficiados {
 	public void listarTotalBeneficiarios() { 
 		try {
 			Statement statement = conn.createStatement();
-			String select = "SELECT COUNT(*) from BENEFICIADOS";
+			String select = "SELECT COUNT(*) from BENEFECIARIO";
 			ResultSet resultSet = statement.executeQuery(select);
 		
 			System.out.println("Total de usuarios Beneficiados: " + resultSet.getInt("count(*)"));
@@ -153,7 +153,7 @@ public class Beneficiados {
 	public void listarTotalValorConcebido() {
 		try {
 			Statement statement = conn.createStatement();
-			String select = "SELECT SUM(valor_beneficio) AS TOTAL from BENEFICIADOS";
+			String select = "SELECT SUM(valor_beneficio) AS TOTAL from BENEFECIARIO";
 			ResultSet resultSet = statement.executeQuery(select);
 		
 			System.out.println("Total de usuarios Beneficiados: " + resultSet.getDouble("total"));
