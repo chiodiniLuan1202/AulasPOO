@@ -69,7 +69,6 @@ public class AuxilioEmergencial {
 		}
 
 		persisteBeneficiado(beneficiado);
-		teclado.close();
 	}
 
 	public void listarCadastros() {
@@ -174,73 +173,81 @@ public class AuxilioEmergencial {
 		}
 	}
 
-	public void mostrarBeneficiado() {
-		Scanner teclado = new Scanner(System.in);
-		int codigo = 0;
-
-		System.out.println("Insira o código do usuário");
-		codigo = teclado.nextInt();
-		String select = "SELECT ID, NOME from BENEFECIADO WHERE ID =" + codigo;
-		teclado.nextLine();
+	private void persisteBeneficiado(Beneficiado beneficiado) {
+		String drop = "drop TABLE IF EXISTS BENEFICIADO;";
+		String comando = "CREATE TABLE IF NOT EXISTS BENEFICIADO("// 
+				+ "id serial not null,"//
+				+ "nome varchar(40) not null,"// 
+				+ "data_nascimento varchar(15) not null,"// 
+				+ "categoria int not null,"//
+				+ "estado varchar(20) not null,"//
+				+ "idade int not null,"// 
+				+ "valor_beneficio decimal(2) not null,"//
+				+ "tempo_beneficio int not null);";
 
 		try {
 			Connection conn = new ConnectionFactory().getConnection();
 			Statement st = conn.createStatement();
+			st.execute(drop);
+			st.execute(comando);
+
+			String insert = "INSERT INTO BENEFICIADO (NOME, DATA_NASCIMENTO, CATEGORIA, IDADE, ESTADO, VALOR_BENEFICIO,TEMPO_BENEFICIO)"
+					+ "values ('" + beneficiado.getNomeCompleto() + "','"// 
+					+ beneficiado.getDataNasc() + "',"//
+					+ beneficiado.getCategoria().ordinal() + ","// 
+					+ beneficiado.getIdade() + ",'"//
+					+ beneficiado.getEstado() + "',"// 
+					+ beneficiado.getValorBeneficio() + ","//
+					+ beneficiado.getTempoBeneficio() + ");";
+
+			st.execute(insert);
+			System.out.println("Cadastrou!!");
+		} catch (SQLException e) {
+			System.out.println("Não foi possível salvar este registro! " + e.getMessage());
+		}
+	}
+
+	public void mostrarBeneficiado() {
+		Scanner teclado = new Scanner(System.in);
+		int codigo = 0;
+		
+		System.out.println("Insira o código do usuário");
+		codigo = teclado.nextInt();
+		String select = "SELECT ID, NOME from BENEFECIADO WHERE ID =" + codigo;
+		teclado.nextLine();
+		
+		try {
+			Connection conn = new ConnectionFactory().getConnection();
+			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(select);
-
-			System.out.println("Código: " + rs.getInt("id") + "Nome:" + rs.getString("nome"));
-
+			
+			System.out.println("Código: " + rs.getInt("id")
+						+ "Nome:" + rs.getString("nome"));
+			
 			System.out.println("Se deseja excluir este registro, aperte 1.");
-
+			
 			int opção = teclado.nextInt();
-
+			
 			if (opção == 1) {
 				deletarBeneficiado(codigo);
 			}
 		} catch (SQLException e) {
 			System.out.println("Cadastro não encontrado");
 		}
-		teclado.close();
+		
 	}
 
 	private void deletarBeneficiado(int codigo) {
 		String delete = "delete from beneficiado where id =" + codigo;
-
+		
 		try {
 			Connection conn = new ConnectionFactory().getConnection();
 			Statement st = conn.createStatement();
 			st.execute(delete);
-
+			
 			System.out.println("Beneficiado foi excluído dos registros.");
 		} catch (SQLException e) {
 			System.out.println("não foi possível excluir este registro.");
-		}
-	}
-
-	private void persisteBeneficiado(Beneficiado beneficiado) {
-		String comando = "CREATE TABLE IF NOT EXISTS BENEFICIADO("//
-				+ "id serial not null,"//
-				+ "nome varchar(40) not null,"//
-				+ "data_nascimento varchar(15) not null,"//
-				+ "categoria int(8) not null,"//
-				+ "idade varchar(10) not null,"//
-				+ "valor_beneficio double(8) not null,"//
-				+ "tempo_beneficio varchar(15) not null);";
-
-		try {
-			Connection conn = new ConnectionFactory().getConnection();
-			Statement st = conn.createStatement();
-			st.execute(comando);
-
-			String insert = "INSERT INTO BENEFECIADO (NOME, DATA_NASCIMENTO, CATEGORIA, IDADE, ESTADO, VALOR_BENEFICIO,TEMPO_BENEFICIO)"
-					+ "values (" + beneficiado.getNomeCompleto() + "," + beneficiado.getDataNasc() + ","
-					+ beneficiado.getCategoria().ordinal() + "," + beneficiado.getIdade() + ","
-					+ beneficiado.getEstado() + "," + beneficiado.getValorBeneficio() + ","
-					+ beneficiado.getTempoBeneficio() + ");";
-
-			st.execute(insert);
-		} catch (SQLException e) {
-			System.out.println("Não foi possível salvar este registro! " + e.getMessage());
 		}
 	}
 

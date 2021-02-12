@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class ConnectionFactory {
-	Connection conn = new ConnectionFactory().getConnection();
-
 	public Connection getConnection() {
 		Connection conn = null;
 		try {
